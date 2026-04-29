@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.miappapi_elizabethluiswendy.api.ActualizarRequest
+import com.example.miappapi_elizabethluiswendy.api.CrearRequest
 import com.example.miappapi_elizabethluiswendy.api.RetrofitClient
 import com.example.miappapi_elizabethluiswendy.model.Producto
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvMensaje: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var rvProductos: RecyclerView
+
+    private lateinit var etCrearNombre: EditText
+    private lateinit var etCrearDescripcion: EditText
+    private lateinit var etCrearPrecio: EditText
     private lateinit var etIdBuscar: EditText
     private lateinit var etNombre: EditText
     private lateinit var etDescripcion: EditText
@@ -44,6 +49,9 @@ class MainActivity : AppCompatActivity() {
         tvMensaje = findViewById(R.id.tvMensaje)
         progressBar = findViewById(R.id.progressBar)
         rvProductos = findViewById(R.id.rvProductos)
+        etCrearNombre = findViewById(R.id.etCrearNombre)
+        etCrearDescripcion = findViewById(R.id.etCrearDescripcion)
+        etCrearPrecio = findViewById(R.id.etCrearPrecio)
         etIdBuscar = findViewById(R.id.etIdBuscar)
         etNombre = findViewById(R.id.etNombre)
         etDescripcion = findViewById(R.id.etDescripcion)
@@ -52,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         etIdEliminar = findViewById(R.id.etIdEliminar)
 
         val btnMostrarTodos = findViewById<Button>(R.id.btnMostrarTodos)
+        val btnCrear = findViewById<Button>(R.id.btnCrear)
         val btnBuscarPorId = findViewById<Button>(R.id.btnBuscarPorId)
         val btnActualizar = findViewById<Button>(R.id.btnActualizar)
         val btnEliminar = findViewById<Button>(R.id.btnEliminar)
@@ -65,6 +74,19 @@ class MainActivity : AppCompatActivity() {
         btnMostrarTodos.setOnClickListener {
             mostrarTodos()
         }
+
+        btnCrear.setOnClickListener {
+            val nombre = etCrearNombre.text.toString()
+            val descripcion = etCrearDescripcion.text.toString()
+            val precio = etCrearPrecio.text.toString()
+
+            if (nombre.isEmpty() || precio.isEmpty()) {
+                Toast.makeText(this, "Nombre y precio son obligatorios", Toast.LENGTH_SHORT).show()
+            } else {
+                crearProducto(nombre, descripcion, precio.toDouble())
+            }
+        }
+
 
         // BOTÓN BUSCAR POR ID
         btnBuscarPorId.setOnClickListener {
@@ -133,6 +155,43 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     tvMensaje.text = " Error de conexión: ${e.message}"
                     Log.e("API_ERROR", "Excepción", e)
+                    mostrarCarga(false)
+                }
+            }
+        }
+    }
+
+    private fun crearProducto(nombre: String, descripcion: String, precio: Double) {
+        mostrarCarga(true)
+        tvMensaje.text = "Creando producto..."
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val datos = CrearRequest(nombre, descripcion, precio)
+                val response = RetrofitClient.instance.crear(datos)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        val nuevoId = response.body()?.id ?: 0
+                        tvMensaje.text = " ${response.body()?.message} ID: $nuevoId"
+                        Toast.makeText(this@MainActivity, "Producto creado con ID: $nuevoId", Toast.LENGTH_SHORT).show()
+
+                        // Limpiar campos
+                        etCrearNombre.text.clear()
+                        etCrearDescripcion.text.clear()
+                        etCrearPrecio.text.clear()
+
+                        // Refrescar lista
+                        mostrarTodos()
+                    } else {
+                        val errorBody = response.errorBody()?.string() ?: "Error desconocido"
+                        tvMensaje.text = " Error ${response.code()}: $errorBody"
+                    }
+                    mostrarCarga(false)
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    tvMensaje.text = " Error: ${e.message}"
+                    Log.e("API_ERROR", "Excepción crear", e)
                     mostrarCarga(false)
                 }
             }

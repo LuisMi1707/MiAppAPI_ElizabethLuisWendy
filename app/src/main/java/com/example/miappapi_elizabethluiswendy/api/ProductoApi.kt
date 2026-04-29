@@ -6,27 +6,25 @@ import retrofit2.http.*
 
 interface ProductoApi {
 
-    // MOSTRAR TODOS
     @GET("mostrar.php")
     suspend fun obtenerTodos(): Response<ProductosResponse>
 
-    // MOSTRAR POR ID
     @GET("mostrar_por_id.php")
     suspend fun obtenerPorId(@Query("id") id: Int): Response<ProductoResponse>
 
-    // ACTUALIZAR
+    @POST("crear.php")
+    suspend fun crear(@Body producto: CrearRequest): Response<CrearResponse>
+
     @PUT("actualizar.php")
     suspend fun actualizar(
         @Query("id") id: Int,
         @Body producto: ActualizarRequest
     ): Response<MensajeResponse>
 
-    // ELIMINAR - CORREGIDO
     @HTTP(method = "DELETE", path = "eliminar.php", hasBody = false)
     suspend fun eliminar(@Query("id") id: Int): Response<MensajeResponse>
 }
 
-// Clases de respuesta de la API
 data class ProductosResponse(
     val success: Boolean,
     val total: Int,
@@ -44,7 +42,19 @@ data class MensajeResponse(
     val error: String? = null
 )
 
-// Clase para enviar datos al actualizar
+data class CrearResponse(
+    val success: Boolean,
+    val message: String,
+    val id: Int,
+    val error: String? = null
+)
+
+data class CrearRequest(
+    val nombre: String,
+    val descripcion: String,
+    val precio: Double
+)
+
 data class ActualizarRequest(
     val nombre: String,
     val descripcion: String,

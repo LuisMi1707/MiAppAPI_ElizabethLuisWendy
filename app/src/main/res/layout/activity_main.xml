@@ -84,6 +84,106 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- CREAR PRODUCTO -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:background="#FFFFFF">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Crear Nuevo Producto"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxStrokeColor="#2E7D32"
+                    app:hintTextColor="#2E7D32"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCrearNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nombre del nuevo producto"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textColorHint="#9E9E9E"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxStrokeColor="#2E7D32"
+                    app:hintTextColor="#2E7D32"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCrearDescripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Descripción"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textColorHint="#9E9E9E"
+                        android:inputType="text"
+                        android:padding="12dp"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:boxStrokeColor="#2E7D32"
+                    app:hintTextColor="#2E7D32"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCrearPrecio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Precio (ej: 99.99)"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textColorHint="#9E9E9E"
+                        android:inputType="numberDecimal"
+                        android:padding="12dp"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnCrear"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="CREAR PRODUCTO"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    app:backgroundTint="#2E7D32"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <!-- BUSCAR POR ID -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -143,7 +243,6 @@
         </androidx.cardview.widget.CardView>
 
         <!-- ACTUALIZAR PRODUCTO -->
-        <!-- ACTUALIZAR PRODUCTO -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -161,7 +260,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="✏ Actualizar Producto"
+                    android:text=" Actualizar Producto"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="#212121"
@@ -283,7 +382,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="🗑 Eliminar Producto por ID"
+                    android:text=" Eliminar Producto por ID"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="#212121"
